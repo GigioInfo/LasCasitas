@@ -35,6 +35,9 @@ function App() {
     setPedido([]);
   };
 
+  const [estadoPedido, setEstadoPedido] = useState('sin_pedido');
+  // 'sin_pedido' | 'en_preparacion'
+
   return (
     <div className="app">
       <header className="header">
@@ -86,6 +89,14 @@ function App() {
                   Total: <strong>{total.toFixed(2)} €</strong>
                 </p>
                 <button onClick={vaciarPedido}>Vaciar pedido</button>
+                {pedido.length > 0 && (
+                  <button
+                    style={{ marginLeft: '0.5rem' }}
+                    onClick={() => setEstadoPedido('en_preparacion')}
+                  >
+                    Confirmar pedido (simulación)
+                  </button>
+                )}
               </>
             )}
           </section>
@@ -94,16 +105,16 @@ function App() {
         {pagina === 'estado' && (
           <section>
             <h2>Estado del pedido</h2>
-            {pedido.length === 0 ? (
+            {estadoPedido === 'sin_pedido' && (
               <p>
-                No hay ningún pedido en preparación. Añade productos en el menú
-                y confirma el pedido durante la presentación.
+                No hay ningún pedido en preparación. Primero añade productos en el menú
+                y confirma el pedido en la sección "Mi pedido" durante la presentación.
               </p>
-            ) : (
+            )}
+            {estadoPedido === 'en_preparacion' && (
               <p>
-                Este es un prototipo: durante la demo podéis explicar que el
-                pedido está "EN PREPARACIÓN" y simular la notificación cuando
-                esté listo.
+                El pedido está actualmente <strong>EN PREPARACIÓN</strong>. En una versión real,
+                la cafetería actualizaría este estado cuando el pedido estuviera listo para recoger.
               </p>
             )}
           </section>
