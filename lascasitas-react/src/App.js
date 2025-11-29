@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import './App.css';
+import cafeImg from './images/cafe.jpg';
+import bocadilloImg from './images/bocadillo.jpg';
+import chapataImg from './images/chapata.jpg';
+import zumoImg from './images/zumo.jpg';
+import tartaImg from './images/tarta.jpg';
 
 // Menú de ejemplo (luego lo podéis cambiar)
 const MENU_ITEMS = [
-  { id: 1, nombre: 'Café con leche', precio: 1.20 },
-  { id: 2, nombre: 'Bocadillo de jamón', precio: 2.80 },
-  { id: 3, nombre: 'Chapata de pollo', precio: 3.20 },
-  { id: 4, nombre: 'Zumo de naranja', precio: 1.50 },
-  { id: 5, nombre: 'Tarta de chocolate', precio: 2.50 },
-
+  { id: 1, nombre: 'Café con leche', precio: 1.20, imagen: cafeImg },
+  { id: 2, nombre: 'Bocadillo de jamón', precio: 2.80, imagen: bocadilloImg },
+  { id: 3, nombre: 'Chapata de pollo', precio: 3.20, imagen: chapataImg },
+  { id: 4, nombre: 'Zumo de naranja', precio: 1.50, imagen: zumoImg },
+  { id: 5, nombre: 'Tarta de chocolate', precio: 2.50, imagen: tartaImg },
 ];
 
 function App() {
@@ -62,6 +66,13 @@ function App() {
             <div className="lista-menu">
               {MENU_ITEMS.map((item) => (
                 <div key={item.id} className="tarjeta-menu">
+                  {item.imagen && (
+                    <img
+                      src={item.imagen}
+                      alt={item.nombre}
+                      className="imagen-menu"
+                    />
+                  )}
                   <h3>{item.nombre}</h3>
                   <p>{item.precio.toFixed(2)} €</p>
                   <button onClick={() => añadirAlPedido(item)}>
