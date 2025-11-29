@@ -18,13 +18,17 @@ const MENU_ITEMS = [
 ];
 
 function App() {
-  const [pagina, setPagina] = useState('menu');     // 'menu' | 'pedido' | 'estado'
-  const [pedido, setPedido] = useState([]);         // productos añadidos
+  // Estado que indica qué sección de la app se está mostrando
+  const [pagina, setPagina] = useState('menu'); // 'menu' | 'pedido' | 'estado'
+  // Lista de productos que el usuario ha añadido al pedido actual
+  const [pedido, setPedido] = useState([]);
 
+  // Añade un producto al pedido actual
   const añadirAlPedido = (item) => {
     setPedido([...pedido, item]);
   };
 
+  // Calcula el total del pedido sumando los precios de los productos
   const total = pedido.reduce((suma, item) => suma + item.precio, 0);
 
   const vaciarPedido = () => {
