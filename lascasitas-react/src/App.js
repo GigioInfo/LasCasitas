@@ -7,6 +7,8 @@ const MENU_ITEMS = [
   { id: 2, nombre: 'Bocadillo de jamón', precio: 2.80 },
   { id: 3, nombre: 'Chapata de pollo', precio: 3.20 },
   { id: 4, nombre: 'Zumo de naranja', precio: 1.50 },
+  { id: 5, nombre: 'Tarta de chocolate', precio: 2.50 },
+
 ];
 
 function App() {
