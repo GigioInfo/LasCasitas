@@ -1,23 +1,117 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
+// Menú de ejemplo (luego lo podéis cambiar)
+const MENU_ITEMS = [
+  { id: 1, nombre: 'Café con leche', precio: 1.20 },
+  { id: 2, nombre: 'Bocadillo de jamón', precio: 2.80 },
+  { id: 3, nombre: 'Chapata de pollo', precio: 3.20 },
+  { id: 4, nombre: 'Zumo de naranja', precio: 1.50 },
+];
+
 function App() {
+  const [pagina, setPagina] = useState('menu');     // 'menu' | 'pedido' | 'estado'
+  const [pedido, setPedido] = useState([]);         // productos añadidos
+
+  const añadirAlPedido = (item) => {
+    setPedido([...pedido, item]);
+  };
+
+  const total = pedido.reduce((suma, item) => suma + item.precio, 0);
+
+  const vaciarPedido = () => {
+    setPedido([]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="app">
+      <header className="header">
+        <h1>LasCasitasApp</h1>
+        <p>Cafetería universitaria Las Casitas – Prototipo</p>
       </header>
+
+      {/* NAVBAR SEMPLICE */}
+      <nav className="nav">
+        <button
+          className={pagina === 'menu' ? 'nav-btn active' : 'nav-btn'}
+          onClick={() => setPagina('menu')}
+        >
+          Menú
+        </button>
+        <button
+          className={pagina === 'pedido' ? 'nav-btn active' : 'nav-btn'}
+          onClick={() => setPagina('pedido')}
+        >
+          Mi pedido ({pedido.length})
+        </button>
+        <button
+          className={pagina === 'estado' ? 'nav-btn active' : 'nav-btn'}
+          onClick={() => setPagina('estado')}
+        >
+          Estado del pedido
+        </button>
+      </nav>
+
+      <main className="contenido">
+        {pagina === 'menu' && (
+          <section>
+            <h2>Menú del día</h2>
+            <p>Selecciona los productos que quieres pedir.</p>
+            <div className="lista-menu">
+              {MENU_ITEMS.map((item) => (
+                <div key={item.id} className="tarjeta-menu">
+                  <h3>{item.nombre}</h3>
+                  <p>{item.precio.toFixed(2)} €</p>
+                  <button onClick={() => añadirAlPedido(item)}>
+                    Añadir al pedido
+                  </button>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {pagina === 'pedido' && (
+          <section>
+            <h2>Mi pedido</h2>
+            {pedido.length === 0 ? (
+              <p>No has añadido nada todavía.</p>
+            ) : (
+              <>
+                <ul className="lista-pedido">
+                  {pedido.map((item, index) => (
+                    <li key={index}>
+                      {item.nombre} – {item.precio.toFixed(2)} €
+                    </li>
+                  ))}
+                </ul>
+                <p className="total">
+                  Total: <strong>{total.toFixed(2)} €</strong>
+                </p>
+                <button onClick={vaciarPedido}>Vaciar pedido</button>
+              </>
+            )}
+          </section>
+        )}
+
+        {pagina === 'estado' && (
+          <section>
+            <h2>Estado del pedido</h2>
+            {pedido.length === 0 ? (
+              <p>
+                No hay ningún pedido en preparación. Añade productos en el menú
+                y confirma el pedido durante la presentación.
+              </p>
+            ) : (
+              <p>
+                Este es un prototipo: durante la demo podéis explicar que el
+                pedido está "EN PREPARACIÓN" y simular la notificación cuando
+                esté listo.
+              </p>
+            )}
+          </section>
+        )}
+      </main>
     </div>
   );
 }
